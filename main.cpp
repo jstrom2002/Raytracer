@@ -92,19 +92,14 @@ vec3 color_TheNextWeekend(const ray& r, hittable *world, int depth) {
 
 
 
-vec3 color_TheRestOfYourLife(
-	const ray& r,
-	hittable *world,
-	int depth,
-	hittable *light_shape = new xz_rect(213, 343, 227, 332, 554, 0)
-) {
+vec3 color_TheRestOfYourLife(const ray& r, hittable *world, hittable *light_shape, int depth) {
 	hit_record hrec;
 	if (world->hit(r, 0.001, MAXFLOAT, hrec)) {
 		scatter_record srec;
 		vec3 emitted = hrec.mat_ptr->emitted(r, hrec, hrec.u, hrec.v, hrec.p);
-		if (depth < 50 && hrec.mat_ptr->scatter(r, hrec, srec.attenuation, srec)) {
+		if (depth < 50 && hrec.mat_ptr->scatter(r, hrec, srec)) {
 			if (srec.is_specular) {
-				return srec.attenuation * color_TheRestOfYourLife(srec.specular_ray, world, depth + 1, light_shape);
+				return srec.attenuation * color_TheRestOfYourLife(srec.specular_ray, world, light_shape, depth + 1);
 			}
 			else {
 				hittable_pdf plight(light_shape, hrec.p);
@@ -114,7 +109,7 @@ vec3 color_TheRestOfYourLife(
 				delete srec.pdf_ptr;
 				return emitted
 					+ srec.attenuation * hrec.mat_ptr->scattering_pdf(r, hrec, scattered)
-					* color_TheRestOfYourLife(scattered, world, depth + 1, light_shape)
+					* color_TheRestOfYourLife(scattered, world, light_shape, depth + 1)
 					/ pdf_val;
 			}
 		}
@@ -446,9 +441,9 @@ void cornell_box(hittable **scene, camera **cam, float aspect) {
 /////////////////////////////////////////////////////////////////////////////////////
 
 void InOneWeekend(std::vector<GLubyte>& pixels) {
-	nx = 500;//image width
-	ny = 500;//image height
-	ns = 10;//number of samples
+	nx = 800;//image width
+	ny = 800;//image height
+	ns = 20;//number of samples
 	std::cout << "image res: " << nx << " " << ny << "\nsamples: " << ns << "\n";
 
 		hittable *world = random_scene_InOneWeekend();
@@ -577,7 +572,7 @@ void TheRestOfYourLife(std::vector<GLubyte>& pixels) {
 				float v = float(j + random_double()) / float(ny);
 				ray r = cam->get_ray(u, v);
 				vec3 p = r.point_at_parameter(2.0);
-				col += de_nan(color_TheRestOfYourLife(r, world, 0, &hlist));
+				col += de_nan(color_TheRestOfYourLife(r, world, &hlist, 0));
 			}
 			col /= float(ns);
 			col = vec3(sqrt(col[0]), sqrt(col[1]), sqrt(col[2]));
@@ -609,8 +604,8 @@ int main() {
 
 	
 	//InOneWeekend(pixels);
-	TheNextWeekend(pixels);
-	//TheRestOfYourLife(pixels);
+	//TheNextWeekend(pixels);	
+	TheRestOfYourLife(pixels);
 
 
 	std::cout << "DONE. Saving to file...\n\n*** PRESS ENTER TO EXIT ***\n";
@@ -618,4 +613,3 @@ int main() {
 	std::cin.ignore();
 	pixels.clear();
 }//////////////////////////////////////////////////////////////
-

@@ -66,9 +66,9 @@ class material  {
 		}
 
 
-        virtual bool scatter(const ray& r_in, const hit_record& hrec, vec3& attenuation, scatter_record& srec) const {
-            return false;
-        }
+		virtual bool scatter(const ray& r_in, const hit_record& hrec, scatter_record& srec) const {
+			return false;
+		}
         virtual float scattering_pdf(const ray& r_in, const hit_record& rec, const ray& scattered) const {
             return 0;
         }
@@ -246,7 +246,4 @@ class isotropic : public material {
 //        float ref_idx;
 //};
 
-
-
 #endif
-
