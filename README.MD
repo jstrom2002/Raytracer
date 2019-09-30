@@ -1,2 +1,1 @@
-Combined all source files for Win32/C++
-From Peter Shirley's "Ray Tracing In One Weekend" series of books
+This raytracer is from the source files from Peter Shirley's "Ray Tracing In One Weekend" series of books, which ive combined and edited for Win32/C++
