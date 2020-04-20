@@ -1,10 +1,10 @@
 ### Raytracer ###
 
 ## Dependencies ##
-Windows
-GLFW
-GLEW
-OpenGL
+Windows  
+GLFW  
+GLEW  
+OpenGL  
 
 ## Notes ##
 This raytracer uses all the source files from Peter Shirley's "Ray Tracing In One Weekend" series of books.
