@@ -1,12 +1,13 @@
 # Raytracer #
-Port of the source files from Peter Shirley's "Ray Tracing In One Weekend" series of books.
+### Notes ###
+This repository is a port of the source files from Peter Shirley's "Ray Tracing In One Weekend" series of books to a program that uses several OpenGL-related libraries.
 
 ## Dependencies ##
 Windows  
-GLFW  
+GLFW3  
 GLEW  
 OpenGL  
-STBI  
+STB  
 
 ## Notes ##
 All code is intellectual property of Peter Shirley: https://github.com/RayTracing.
